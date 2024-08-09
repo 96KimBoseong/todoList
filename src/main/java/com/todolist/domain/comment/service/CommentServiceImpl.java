@@ -1,5 +1,6 @@
 package com.todolist.domain.comment.service;
 
+import com.todolist.domain.comment.dto.CommentDeleteRequestDTO;
 import com.todolist.domain.comment.dto.CommentRequestDTO;
 import com.todolist.domain.comment.dto.CommentResponseDTO;
 import com.todolist.domain.comment.dto.CommentUpdateDTO;
@@ -41,5 +42,16 @@ public class CommentServiceImpl implements CommentService {
         comment.update(commentRequestDTO.getContent());
         commentRepository.save(comment);
         return CommentResponseDTO.from(comment);
+    }
+    @Transactional
+    @Override
+    public void deleteComment(Long commentId, CommentDeleteRequestDTO commentDeleteRequestDTO) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                ()-> new NotFoundException("댓글이 없습니다")
+        );
+        if (comment.getWriter().equals(commentDeleteRequestDTO.getWriter())) {
+            throw new IllegalArgumentException("사용자가 일치 하지 않습니다");
+        }
+        commentRepository.delete(comment);
     }
 }

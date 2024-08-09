@@ -1,5 +1,6 @@
 package com.todolist.domain.comment.controller;
 
+import com.todolist.domain.comment.dto.CommentDeleteRequestDTO;
 import com.todolist.domain.comment.dto.CommentRequestDTO;
 import com.todolist.domain.comment.dto.CommentResponseDTO;
 import com.todolist.domain.comment.dto.CommentUpdateDTO;
@@ -29,6 +30,12 @@ public class CommentController {
     @Operation(summary = "댓글 수정",description = "댓글수정기능")
     public ResponseEntity<CommentResponseDTO> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentUpdateDTO request) {
         return ResponseEntity.status(HttpStatus.OK).body(commentService.updateComment(commentId,request));
+    }
+
+    @DeleteMapping("/delete/{commentId}")
+    @Operation(summary = "댓글 삭제",description = "댓글 삭제기능")
+    public ResponseEntity<CommentResponseDTO> deleteComment(@PathVariable Long commentId, @Valid @RequestBody CommentDeleteRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
