@@ -28,4 +28,11 @@ public class Todo extends BaseTimeEntity {
 
     @Column(name= "password")
     private String password;
+
+    public Todo(String title, String content, String writer, String password) {
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+        this.password = password;
+    }
 }
