@@ -27,4 +27,11 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "todo")
     private Todo todo;
+
+    public Comment(String content, String writer, Todo todo) {
+        this.content = content;
+        this.writer = writer;
+        this.todo = todo;
+    }
+
 }
