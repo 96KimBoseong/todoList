@@ -35,7 +35,7 @@ public class TodoServiceImpl implements TodoService {
         todoRepository.save(todo);
         return TodoResponseDTO.fromTodo(todo);
     }
-
+    @Transactional
     @Override
     public void deleteTodo(TodoDeleteRequestDTO todoDeleteRequestDTO) {
         Todo todo = todoRepository.findByIdAndPassword(todoDeleteRequestDTO.getId(),todoDeleteRequestDTO.getPassword()).orElseThrow(
@@ -43,4 +43,5 @@ public class TodoServiceImpl implements TodoService {
         );
         todoRepository.delete(todo);
     }
+
 }
