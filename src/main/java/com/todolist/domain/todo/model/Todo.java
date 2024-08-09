@@ -1,11 +1,15 @@
 package com.todolist.domain.todo.model;
 
+import com.todolist.domain.comment.model.Comment;
 import com.todolist.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,6 +32,9 @@ public class Todo extends BaseTimeEntity {
 
     @Column(name= "password")
     private String password;
+
+    @OneToMany(mappedBy = "todo",fetch = FetchType.LAZY ,cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public Todo(String title, String content, String writer, String password) {
         this.title = title;
