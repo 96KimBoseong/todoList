@@ -35,4 +35,10 @@ public class Todo extends BaseTimeEntity {
         this.writer = writer;
         this.password = password;
     }
+
+    public void update(String title, String content, String writer) {
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+    }
 }

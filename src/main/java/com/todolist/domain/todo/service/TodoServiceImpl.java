@@ -23,4 +23,14 @@ public class TodoServiceImpl implements TodoService {
         todoRepository.save(todo);
         return TodoResponseDTO.fromTodo(todo);
     }
+    @Transactional
+    @Override
+    public TodoResponseDTO updateTodo(Long todoId,TodoRequestDTO todoRequestDTO) {
+        Todo todo = todoRepository.findByIdAndPassword(todoId,todoRequestDTO.getPassword()).orElseThrow(
+                ()-> new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다")
+        );
+        todo.update(todoRequestDTO.getTitle(),todoRequestDTO.getContent(),todoRequestDTO.getWriter());
+        todoRepository.save(todo);
+        return TodoResponseDTO.fromTodo(todo);
+    }
 }
