@@ -1,7 +1,9 @@
 package com.todolist.domain.todo.service;
 
+import com.todolist.domain.todo.dto.TodoDeleteRequestDTO;
 import com.todolist.domain.todo.dto.TodoRequestDTO;
 import com.todolist.domain.todo.dto.TodoResponseDTO;
+import com.todolist.domain.todo.dto.TodoUpdateDTO;
 import com.todolist.domain.todo.model.Todo;
 import com.todolist.domain.todo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
@@ -25,12 +27,20 @@ public class TodoServiceImpl implements TodoService {
     }
     @Transactional
     @Override
-    public TodoResponseDTO updateTodo(Long todoId,TodoRequestDTO todoRequestDTO) {
-        Todo todo = todoRepository.findByIdAndPassword(todoId,todoRequestDTO.getPassword()).orElseThrow(
+    public TodoResponseDTO updateTodo(TodoUpdateDTO todoUpdateDTO) {
+        Todo todo = todoRepository.findByIdAndPassword(todoUpdateDTO.getId(),todoUpdateDTO.getPassword()).orElseThrow(
                 ()-> new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다")
         );
-        todo.update(todoRequestDTO.getTitle(),todoRequestDTO.getContent(),todoRequestDTO.getWriter());
+        todo.update(todoUpdateDTO.getTitle(),todoUpdateDTO.getContent(),todoUpdateDTO.getWriter());
         todoRepository.save(todo);
         return TodoResponseDTO.fromTodo(todo);
+    }
+
+    @Override
+    public void deleteTodo(TodoDeleteRequestDTO todoDeleteRequestDTO) {
+        Todo todo = todoRepository.findByIdAndPassword(todoDeleteRequestDTO.getId(),todoDeleteRequestDTO.getPassword()).orElseThrow(
+                ()-> new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다")
+        );
+        todoRepository.delete(todo);
     }
 }
