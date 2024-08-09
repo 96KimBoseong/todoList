@@ -28,4 +28,17 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<ErrorResponse> handleException(IllegalArgumentException ex) {
+        ErrorResponse ErrorResponse = new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(ErrorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundExceptions(NotFoundException ex) {
+        ErrorResponse ErrorResponse = new ErrorResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value() );
+        return new ResponseEntity<>(ErrorResponse, HttpStatus.NOT_FOUND);
+
+    }
 }
