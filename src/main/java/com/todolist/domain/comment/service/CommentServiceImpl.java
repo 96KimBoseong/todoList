@@ -2,6 +2,7 @@ package com.todolist.domain.comment.service;
 
 import com.todolist.domain.comment.dto.CommentRequestDTO;
 import com.todolist.domain.comment.dto.CommentResponseDTO;
+import com.todolist.domain.comment.dto.CommentUpdateDTO;
 import com.todolist.domain.comment.model.Comment;
 import com.todolist.domain.comment.repository.CommentRepository;
 import com.todolist.domain.todo.model.Todo;
@@ -30,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
     }
     @Transactional
     @Override
-    public CommentResponseDTO updateComment( Long commentId, CommentRequestDTO commentRequestDTO) {
+    public CommentResponseDTO updateComment(Long commentId, CommentUpdateDTO commentRequestDTO) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new NotFoundException("댓글이 없습니다")
         );

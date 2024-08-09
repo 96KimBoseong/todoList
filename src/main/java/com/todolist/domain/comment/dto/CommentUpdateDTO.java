@@ -11,5 +11,5 @@ public class CommentUpdateDTO {
     @NotBlank(message = "id는 필수값입니다")
     private String content;
     @Email
-    private String email;
+    private String writer;
 }

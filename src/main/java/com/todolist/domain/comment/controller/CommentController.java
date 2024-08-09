@@ -2,6 +2,7 @@ package com.todolist.domain.comment.controller;
 
 import com.todolist.domain.comment.dto.CommentRequestDTO;
 import com.todolist.domain.comment.dto.CommentResponseDTO;
+import com.todolist.domain.comment.dto.CommentUpdateDTO;
 import com.todolist.domain.comment.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -25,7 +26,10 @@ public class CommentController {
     }
 
     @PatchMapping("/update/{commentId}")
-    public ResponseEntity<CommentResponseDTO> updateComment(@PathVariable Long commentId,@Valid @RequestBody CommentRequestDTO request) {
+    @Operation(summary = "댓글 수정",description = "댓글수정기능")
+    public ResponseEntity<CommentResponseDTO> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentUpdateDTO request) {
         return ResponseEntity.status(HttpStatus.OK).body(commentService.updateComment(commentId,request));
     }
+
+
 }
