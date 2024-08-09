@@ -23,4 +23,9 @@ public class CommentController {
     public ResponseEntity<CommentResponseDTO> createComment(@PathVariable Long todoId,@Valid @RequestBody CommentRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createComment(todoId, request));
     }
+
+    @PatchMapping("/update/{commentId}")
+    public ResponseEntity<CommentResponseDTO> updateComment(@PathVariable Long commentId,@Valid @RequestBody CommentRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.updateComment(commentId,request));
+    }
 }

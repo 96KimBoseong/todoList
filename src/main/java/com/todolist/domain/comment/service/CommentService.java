@@ -7,4 +7,6 @@ public interface CommentService {
 
     CommentResponseDTO createComment(Long todoId,CommentRequestDTO commentRequestDTO);
 
+    CommentResponseDTO updateComment(Long commentId,CommentRequestDTO commentRequestDTO);
+
 }
