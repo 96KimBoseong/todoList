@@ -1,4 +1,4 @@
-package com.todolist.util;
+package com.todolist.util.Swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
