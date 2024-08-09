@@ -28,12 +28,15 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
         return CommentResponseDTO.from(comment);
     }
-
+    @Transactional
     @Override
     public CommentResponseDTO updateComment( Long commentId, CommentRequestDTO commentRequestDTO) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new NotFoundException("댓글이 없습니다")
         );
+        if (comment.getWriter().equals(commentRequestDTO.getWriter())) {
+            throw new IllegalArgumentException("사용자가 일치하지 않습니다");
+        }
         comment.update(commentRequestDTO.getContent());
         commentRepository.save(comment);
         return CommentResponseDTO.from(comment);
