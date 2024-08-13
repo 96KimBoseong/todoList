@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CommentUpdateDTO {
-    @NotBlank(message = "id는 필수값입니다")
+    @NotBlank(message = "내용은 필수 값입니다")
     private String content;
     @Email
     private String writer;
