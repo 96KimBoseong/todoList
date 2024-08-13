@@ -16,6 +16,7 @@ public class CommentResponseDTO {
     private String writer;
     private LocalDateTime createdAt;
     private Long todoId;
+    private String username;
 
     public static CommentResponseDTO from(Comment comment) {
         return new CommentResponseDTO(
@@ -23,7 +24,8 @@ public class CommentResponseDTO {
                 comment.getContent(),
                 comment.getWriter(),
                 comment.getCreatedAt(),
-                comment.getTodo().getId()
+                comment.getTodo().getId(),
+                comment.getUser().getUsername()
         );
     }
 }
