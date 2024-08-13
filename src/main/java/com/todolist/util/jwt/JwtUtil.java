@@ -110,19 +110,43 @@ public class JwtUtil {
         // 클레임을 가져와서 사용자의 정보를 사용하는 메서드
     }
 
+//    public String getTokenFromRequest(HttpServletRequest httpServletRequest) {
+//        Cookie[] cookies = httpServletRequest.getCookies();// 여러개 있는 쿠키들을 배열로
+//        if(cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if (cookie.getName().equals(AUTHORIZATION_HEADER)) { // jwt 형식의 쿠키를 순회하면서 찾음
+//                    try {
+//                        return URLDecoder.decode(cookie.getValue(), "UTF-8"); // Encode 되어 넘어간 Value 다시 Decode
+//                    } catch (UnsupportedEncodingException e) {
+//                        return null;
+//                    }
+//                }
+//            }
+//        }
+//        return null;
+//    }
+
     public String getTokenFromRequest(HttpServletRequest httpServletRequest) {
-        Cookie[] cookies = httpServletRequest.getCookies();// 여러개 있는 쿠키들을 배열로
-        if(cookies != null) {
+        // 1. 쿠키에서 JWT 가져오기
+        Cookie[] cookies = httpServletRequest.getCookies();
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(AUTHORIZATION_HEADER)) { // jwt 형식의 쿠키를 순회하면서 찾음
+                if (cookie.getName().equals(AUTHORIZATION_HEADER)) {
                     try {
-                        return URLDecoder.decode(cookie.getValue(), "UTF-8"); // Encode 되어 넘어간 Value 다시 Decode
+                        return URLDecoder.decode(cookie.getValue(), "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         return null;
                     }
                 }
             }
         }
-        return null;
+
+        // 2. 쿠키에서 JWT를 찾지 못했으면 Authorization 헤더에서 가져오기
+        String authHeader = httpServletRequest.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith(BEARER_PREFIX)) {
+            return authHeader.substring(7); // "Bearer " 부분 제거
+        }
+
+        return null; // 쿠키와 헤더 모두에서 JWT를 찾지 못한 경우
     }
 }
