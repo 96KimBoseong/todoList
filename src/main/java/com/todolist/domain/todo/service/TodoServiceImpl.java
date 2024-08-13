@@ -41,7 +41,7 @@ public class TodoServiceImpl implements TodoService {
         String username = jwtUtil.getUsernameFromToken(httpServletRequest);
 
         User user = userRepository.findByUsername(username).orElseThrow(
-                ()-> new NotFoundException("로그인 정보가 올바르지 않습니다")
+                ()-> new UserException("로그인 정보가 올바르지 않습니다")
         );
 
 
@@ -59,15 +59,15 @@ public class TodoServiceImpl implements TodoService {
                 () -> new NotFoundException("게시글이 없습니다")
         );
 
-        if (todo.getPassword().equals(todoUpdateDTO.getPassword())){
+        if (!todo.getPassword().equals(todoUpdateDTO.getPassword())){
             throw new IllegalArgumentException("비밀번호가 다릅니다");
         }
 
-        if (todo.getUser().getUsername().equals(username)){
+        if (!todo.getUser().getUsername().equals(username)){
             throw new UserException("권한이 없습니다");
         }
 
-        todo.update(todoUpdateDTO.getTitle(),todoUpdateDTO.getContent(),todoUpdateDTO.getWriter());
+        todo.update(todoUpdateDTO.getTitle(),todoUpdateDTO.getContent());
         todoRepository.save(todo);
         return TodoResponseDTO.fromTodo(todo);
 
@@ -84,11 +84,11 @@ public class TodoServiceImpl implements TodoService {
                 () -> new NotFoundException("게시글이 없습니다")
         );
 
-        if (todo.getPassword().equals(todoDeleteRequestDTO.getPassword())){
+        if (!todo.getPassword().equals(todoDeleteRequestDTO.getPassword())){
             throw new IllegalArgumentException("비밀번호가 다릅니다");
         }
 
-        if (todo.getUser().getUsername().equals(username)){
+        if (!todo.getUser().getUsername().equals(username)){
             throw new UserException("권한이 없습니다");
         }
         todoRepository.delete(todo);
