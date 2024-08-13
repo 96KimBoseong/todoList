@@ -9,17 +9,20 @@ import com.todolist.domain.user.repository.UserRepository;
 import com.todolist.exception.NotFoundException;
 import com.todolist.util.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
+
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
-        this.jwtUtil = new JwtUtil();
+        this.jwtUtil = jwtUtil;
     }
     @Transactional
     @Override
