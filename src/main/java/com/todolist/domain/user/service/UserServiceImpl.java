@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(loginRequestDTO.getUsername()).orElseThrow(
                 ()-> new NotFoundException("user 정보가 없습니다 아이디를 확인해보세요")
         );
-        if (!user.getPassword().equals(loginRequestDTO.getPassword())) {
+        if (user.getPassword().equals(loginRequestDTO.getPassword())) {
             String token = jwtUtil.createToken(user.getUsername(), user.getRole());
             jwtUtil.addJwtToCookie(token,response);
             return LoginResponseDTO.from(user,token);
