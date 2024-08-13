@@ -42,7 +42,7 @@ public class JwtUtil {
     @PostConstruct// 빈이 생성된 후, 필요한 초기화 작업을 수행할 때 사용 /  외부 서비스에 연결하거나 초기 설정 값을 읽어오는 등의 작업
     // 또는 빈의 의존성 이 모두 주입된 후에 실행, 의존성 주입에 의존하는 초기화 작업을 안전하게 수행
     public void init(){
-        byte[] bytes = Base64.getDecoder().decode(secretKey);
+        byte[] bytes = Base64.getUrlDecoder().decode(secretKey);
         key = Keys.hmacShaKeyFor(bytes);
     }
 
@@ -77,12 +77,12 @@ public class JwtUtil {
         // &&tokenValue.startsWith(BEARER_PREFIX) // 토큰값이  BEARER_PREFIX == Bearer 로 시작하는지 검증
         //StringUtils.hasText를 사용하여 공백, null을 확인하고 startsWith을 사용하여 토큰의 시작값이 Bearer이 맞는지 확인
         if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)){
-            return tokenValue.substring(7);
+            return tokenValue.substring(7).trim();
             //Bearer 이 6자 이고 공백까지 총 7
             //맞다면 순수 JWT를 반환하기 위해 substring을 사용하여 Bearer+"" 을 자르기
         }
         logger.error("Not found token value");
-        throw new NullPointerException("Not found token value");
+        throw new IllegalArgumentException("Not found token value");
     }
 
     // jwt 검증
@@ -103,12 +103,14 @@ public class JwtUtil {
     }
     // jwt에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token){
+//        substringToken(token);
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         // 토큰의 페이로드 부분의 토큰에 담긴 정보가 들어있음
         // 여기에 담긴 정보의 한조각을 claim이라 부르고 이는 키-값 쌍으로 이루어짐
         // 토큰에는 여러 클레임을 넣을수 있음
         // 클레임을 가져와서 사용자의 정보를 사용하는 메서드
     }
+
 
 //    public String getTokenFromRequest(HttpServletRequest httpServletRequest) {
 //        Cookie[] cookies = httpServletRequest.getCookies();// 여러개 있는 쿠키들을 배열로
@@ -133,7 +135,9 @@ public class JwtUtil {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(AUTHORIZATION_HEADER)) {
                     try {
-                        return URLDecoder.decode(cookie.getValue(), "UTF-8");
+                        String token = URLDecoder.decode(cookie.getValue(),"UTF-8");
+                        logger.info("tokenValue from cookie : {}", token);
+                        return token;
                     } catch (UnsupportedEncodingException e) {
                         return null;
                     }
@@ -144,9 +148,18 @@ public class JwtUtil {
         // 2. 쿠키에서 JWT를 찾지 못했으면 Authorization 헤더에서 가져오기
         String authHeader = httpServletRequest.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith(BEARER_PREFIX)) {
-            return authHeader.substring(7); // "Bearer " 부분 제거
+            String token = authHeader.substring(7);
+            logger.info("tokenValue from authHeader : {}", token);
+            return token; // "Bearer " 부분 제거
         }
 
         return null; // 쿠키와 헤더 모두에서 JWT를 찾지 못한 경우
+    }
+
+    public String getUsernameFromToken(HttpServletRequest httpServletRequest) {
+        String tokenValue = getTokenFromRequest(httpServletRequest);
+        String token = substringToken(tokenValue);
+        Claims info = getUserInfoFromToken(token);
+        return info.getSubject();
     }
 }

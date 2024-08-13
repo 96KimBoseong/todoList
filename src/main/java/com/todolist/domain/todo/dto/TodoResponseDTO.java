@@ -17,6 +17,7 @@ public class TodoResponseDTO {
     private String title;
     private String content;
     private String writer;
+    private String username;
     private LocalDateTime createdAt;
     private List<CommentResponseDTO> commentList;
 
@@ -29,6 +30,7 @@ public class TodoResponseDTO {
                 todo.getTitle(),
                 todo.getContent(),
                 todo.getWriter(),
+                todo.getUser().getUsername(),
                 todo.getCreatedAt(),
                 comments
         );

@@ -1,6 +1,7 @@
 package com.todolist.domain.todo.model;
 
 import com.todolist.domain.comment.model.Comment;
+import com.todolist.domain.user.model.User;
 import com.todolist.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -36,11 +37,16 @@ public class Todo extends BaseTimeEntity {
     @OneToMany(mappedBy = "todo",fetch = FetchType.LAZY ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    public Todo(String title, String content, String writer, String password) {
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private User user;
+
+    public Todo(String title, String content, String writer, String password, User user) {
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.password = password;
+        this.user = user;
     }
 
     public void update(String title, String content, String writer) {

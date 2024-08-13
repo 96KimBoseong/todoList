@@ -6,52 +6,91 @@ import com.todolist.domain.todo.dto.TodoResponseDTO;
 import com.todolist.domain.todo.dto.TodoUpdateDTO;
 import com.todolist.domain.todo.model.Todo;
 import com.todolist.domain.todo.repository.TodoRepository;
+import com.todolist.domain.user.model.User;
+import com.todolist.domain.user.repository.UserRepository;
+import com.todolist.domain.user.service.UserService;
 import com.todolist.exception.NotFoundException;
+import com.todolist.exception.UserException;
+import com.todolist.util.jwt.JwtUtil;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
 
+@Slf4j
 @Service
 public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
-    public TodoServiceImpl(TodoRepository todoRepository) {
+    private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
+    public TodoServiceImpl(TodoRepository todoRepository , JwtUtil jwtUtil,  UserRepository userRepository) {
         this.todoRepository = todoRepository;
+        this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
     }
 
     @Transactional
     @Override
-    public TodoResponseDTO createTodo(TodoRequestDTO todoRequestDTO) {
+    public TodoResponseDTO createTodo(TodoRequestDTO todoRequestDTO, HttpServletRequest httpServletRequest) {
 
-        Todo todo = todoRequestDTO.toTodo();
+        String username = jwtUtil.getUsernameFromToken(httpServletRequest);
+
+        User user = userRepository.findByUsername(username).orElseThrow(
+                ()-> new NotFoundException("로그인 정보가 올바르지 않습니다")
+        );
+
+
+        Todo todo = todoRequestDTO.toTodo(user);
         todoRepository.save(todo);
         return TodoResponseDTO.fromTodo(todo);
     }
     @Transactional
     @Override
-    public TodoResponseDTO updateTodo(TodoUpdateDTO todoUpdateDTO) {
-        Todo todo = todoRepository.findByIdAndPassword(todoUpdateDTO.getId(),todoUpdateDTO.getPassword()).orElseThrow(
-                ()-> new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다")
+    public TodoResponseDTO updateTodo(TodoUpdateDTO todoUpdateDTO, HttpServletRequest httpServletRequest) {
+
+        String username = jwtUtil.getUsernameFromToken(httpServletRequest);
+
+        Todo todo = todoRepository.findById(todoUpdateDTO.getId()).orElseThrow(
+                () -> new NotFoundException("게시글이 없습니다")
         );
+
+        if (todo.getPassword().equals(todoUpdateDTO.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 다릅니다");
+        }
+
+        if (todo.getUser().getUsername().equals(username)){
+            throw new UserException("권한이 없습니다");
+        }
+
         todo.update(todoUpdateDTO.getTitle(),todoUpdateDTO.getContent(),todoUpdateDTO.getWriter());
         todoRepository.save(todo);
         return TodoResponseDTO.fromTodo(todo);
+
+
+
     }
     @Transactional
     @Override
-    public void deleteTodo(TodoDeleteRequestDTO todoDeleteRequestDTO) {
-        Todo todo = todoRepository.findByIdAndPassword(todoDeleteRequestDTO.getId(),todoDeleteRequestDTO.getPassword()).orElseThrow(
-                ()-> {
-                    boolean exists = todoRepository.existsById(todoDeleteRequestDTO.getId());
-                    if(exists) {
-                        return new IllegalArgumentException("아이디랑 비밀면호를 확인하세요");
-                    }else{
-                        return new NotFoundException("일정을 찾을 수 없습니다");
-                    }
-                }
+    public void deleteTodo(TodoDeleteRequestDTO todoDeleteRequestDTO, HttpServletRequest httpServletRequest) {
+
+        String username = jwtUtil.getUsernameFromToken(httpServletRequest);
+
+        Todo todo = todoRepository.findById(todoDeleteRequestDTO.getId()).orElseThrow(
+                () -> new NotFoundException("게시글이 없습니다")
         );
+
+        if (todo.getPassword().equals(todoDeleteRequestDTO.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 다릅니다");
+        }
+
+        if (todo.getUser().getUsername().equals(username)){
+            throw new UserException("권한이 없습니다");
+        }
         todoRepository.delete(todo);
     }
 

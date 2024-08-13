@@ -1,6 +1,7 @@
 package com.todolist.domain.todo.dto;
 
 import com.todolist.domain.todo.model.Todo;
+import com.todolist.domain.user.model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -20,12 +21,13 @@ public class TodoRequestDTO {
     @NotBlank(message = "비밀번호는 필수입니다")
     private String password;
 
-    public Todo toTodo(){
+    public Todo toTodo( User user ){
         return new Todo(
                 this.title,
                 this.content,
                 this.writer,
-                this.password
+                this.password,
+                user
         );
     }
 }
