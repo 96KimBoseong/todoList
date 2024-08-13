@@ -28,7 +28,7 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(request));
     }
 
-    @PatchMapping("/update/{todoId}")
+    @PatchMapping("/update")
     @Operation(summary = "todo 수정", description = "todo 수정")
     public ResponseEntity<TodoResponseDTO> updateTodo(@Valid @RequestBody TodoUpdateDTO request) {
         return ResponseEntity.status(HttpStatus.OK).body(todoService.updateTodo(request));
