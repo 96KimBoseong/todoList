@@ -66,8 +66,12 @@ public class UserRepositoryTest {
 
         String username = "test02";
 
-        assertThrows(NotFoundException.class, () -> userRepository.findByUsername(username).orElseThrow(
+        Exception exception=  assertThrows(NotFoundException.class, () -> userRepository.findByUsername(username).orElseThrow(
                 () -> new NotFoundException("user not found")
         ));
+
+        assertEquals(
+                "user not found", exception.getMessage()
+        );
     }
 }
