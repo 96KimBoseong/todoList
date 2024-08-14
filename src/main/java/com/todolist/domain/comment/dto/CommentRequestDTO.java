@@ -3,7 +3,6 @@ package com.todolist.domain.comment.dto;
 import com.todolist.domain.comment.model.Comment;
 import com.todolist.domain.todo.model.Todo;
 import com.todolist.domain.user.model.User;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;

@@ -1,6 +1,5 @@
 package com.todolist.domain.loginHistory.model;
 
-import com.todolist.domain.user.model.User;
 import com.todolist.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

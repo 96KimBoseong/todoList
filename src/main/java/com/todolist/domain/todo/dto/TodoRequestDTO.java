@@ -2,7 +2,6 @@ package com.todolist.domain.todo.dto;
 
 import com.todolist.domain.todo.model.Todo;
 import com.todolist.domain.user.model.User;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
