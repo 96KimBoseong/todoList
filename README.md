@@ -19,7 +19,19 @@ todoList 애플리케이션은 개인 또는 팀의 작업 관리 및 일정을 
  ---
  # API 설계
 
-![스웨거 개선 버전](https://github.com/user-attachments/assets/6ed209e4-51c0-478a-8064-cd02ef8f02d8)
+| 기능         | Method | Status | URL                          | Request                                          | Response                                                                                                                                                  |
+|--------------|--------|--------|------------------------------|--------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 회원가입     | Post   | 201    | /api/users/signup             | `{ nickname: String, username: String, password: String, role: User.Role }` | `{ id: Long, nickname: String, username: String }`                                                                                                      |
+| 로그인       | Post   | 201    | /api/users/login              | `{ username: String, password: String }`        | Header: `{ Authorization: Jwt }` <br> Body: `{ id: Long, nickname: String, username: String, token: String }`                                                            |
+| todo 생성    | Post   | 201    | /api/todos                    | Header: `{ Authorization: Jwt }` <br> Body: `{ title: String, content: String, password: String }` | `{ id: Long, title: String, content: String, writer: String, username: String, createAt: LocalDateTime, commentList: List }`                           |
+| todo 수정    | Patch  | 200    | /api/todos/{todoId}           | Header: `{ Authorization: Jwt }` <br> Body: `{ title: String, content: String, password: String }` | `{ id: Long, title: String, content: String, writer: String, username: String, createAt: LocalDateTime, commentList: List }`                           |
+| todo 삭제    | Delete | 204    | /api/todos/{todoId}           | Header: `{ Authorization: Jwt }` <br> Body: `{ password: String }`   |                                                                                                                                           |
+| todo 단건 조회| Get    | 200    | /api/todos/{todoId}           |                              | `{ id: Long, title: String, content: String, writer: String, username: String, createAt: LocalDateTime, commentList: List }`                           |
+| todo 리스트 조회| Get  | 200    | /api/todos                    |                                | `List { id: Long, title: String, content: String, writer: String, username: String, createAt: LocalDateTime, commentList: List }`                      |
+| 댓글 생성    | Post   | 201    | /api/todos/{todoId}/comments  | Header: `{ Authorization: Jwt }` <br> Body: `{ content: String }` | `{ id: Long, content: String, writer: String, createAt: LocalDateTime, todoId: Long, username: String }`                                                |
+| 댓글 수정    | Patch  | 200    | /api/todos/{todoId}/comment/{commentId} | Header: `{ Authorization: Jwt }` <br> Body: `{ content: String }` | `{ id: Long, content: String, writer: String, createAt: LocalDateTime, todoId: Long, username: String }`                                                |
+| 댓글 삭제    | Delete | 204    | /api/todos/{todoId}/comment/{commentId} | Header: `{ Authorization: Jwt }`              |                                                                                                                                          |
+
 
 
 ---
@@ -257,8 +269,20 @@ todoList 애플리케이션은 개인 또는 팀의 작업 관리 및 일정을 
 ![실제 에러](https://github.com/user-attachments/assets/7d6ba70b-557a-4de0-a5d5-b1b9b72a2358)
 
 ---
-# error.log 파일 생성
+# 기타
+### error.log 파일 생성
 ![로그파일 적재](https://github.com/user-attachments/assets/9aeab169-99e5-494e-a5f2-8879b46ee1fa)
+
+### Swagger API 명세
+![스웨거 개선 버전](https://github.com/user-attachments/assets/4402ff12-23ed-408f-a856-e88f642d5b31)
+
+
+
+
+
+
+
+---
 
 
 
