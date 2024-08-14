@@ -1,5 +1,6 @@
 
-![todo-List 이미지](https://github.com/user-attachments/assets/2e75fba3-4e38-479a-bfdd-f097760b806e)
+![리드미용 대빵 큰이미지](https://github.com/user-attachments/assets/8acd6aef-507e-4edb-aa0d-af722257a40e)
+
 # 프로젝트 개요
 
 todoList 애플리케이션은 개인 또는 팀의 작업 관리 및 일정을 효율적으로 관리할 수 있는 애플리케이션입니다. 
