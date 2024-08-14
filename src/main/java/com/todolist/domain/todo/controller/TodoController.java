@@ -23,31 +23,31 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     @Operation(summary = "todo 생성", description = "todo 생성")
     public ResponseEntity<TodoResponseDTO> createTodo(@Valid @RequestBody TodoRequestDTO request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(request, httpServletRequest));
     }
 
-    @PatchMapping("/update")
+    @PatchMapping()
     @Operation(summary = "todo 수정", description = "todo 수정")
     public ResponseEntity<TodoResponseDTO> updateTodo(@Valid @RequestBody TodoUpdateDTO request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(todoService.updateTodo(request,httpServletRequest));
     }
 
-    @DeleteMapping("/delete/{todoId}")
+    @DeleteMapping("/{todoId}")
     @Operation(summary = "todo 삭제", description = "todo 삭제")
     public ResponseEntity<Void> deleteTodo(@Valid @RequestBody TodoDeleteRequestDTO request, HttpServletRequest httpServletRequest) {
         todoService.deleteTodo(request, httpServletRequest);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/get/{todoId}")
+    @GetMapping("/{todoId}")
     @Operation(summary = "todo 단건 조회", description = "todo 단건 조회")
     public ResponseEntity<TodoResponseDTO> getTodo(@PathVariable Long todoId) {
         return ResponseEntity.status(HttpStatus.OK).body(todoService.getTodo(todoId));
     }
-    @GetMapping("/getList")
+    @GetMapping("/all")
     @Operation(summary = "todoList 조회", description = "todoList 조회")
     public ResponseEntity<List<TodoResponseDTO>> getTodoList() {
         return ResponseEntity.status(HttpStatus.OK).body(todoService.getAllTodos());

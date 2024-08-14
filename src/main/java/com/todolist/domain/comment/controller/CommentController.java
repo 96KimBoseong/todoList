@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/comment")
+@RequestMapping("/api/todos/{todoId}/comments")
 public class CommentController {
 
     private final CommentService commentService;
@@ -20,19 +20,19 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("/creat/{todoId}")
+    @PostMapping()
     @Operation(summary = "댓글 작성",description = "댓글작성기능")
     public ResponseEntity<CommentResponseDTO> createComment(@PathVariable Long todoId,@Valid @RequestBody CommentRequestDTO request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.createComment(todoId, request, httpServletRequest));
     }
 
-    @PatchMapping("/update/{commentId}")
+    @PatchMapping("/{commentId}")
     @Operation(summary = "댓글 수정",description = "댓글수정기능")
     public ResponseEntity<CommentResponseDTO> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentUpdateDTO request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(commentService.updateComment(commentId,request, httpServletRequest));
     }
 
-    @DeleteMapping("/delete/{commentId}")
+    @DeleteMapping("/{commentId}")
     @Operation(summary = "댓글 삭제",description = "댓글 삭제기능")
     public ResponseEntity<CommentResponseDTO> deleteComment(@PathVariable Long commentId, HttpServletRequest httpServletRequest) {
         commentService.deleteComment(commentId,httpServletRequest);
