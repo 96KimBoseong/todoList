@@ -23,17 +23,19 @@
         </encoder>
     </appender>
 
+    <!-- 콘솔에 모든 로그를 출력, 파일에는 ERROR 레벨 로그만 기록 -->
+    <logger name="com.todolist" level="DEBUG" additivity="true">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
     <!-- ERROR 레벨의 로그만 파일에 기록 -->
     <logger name="com.todolist" level="ERROR" additivity="false">
         <appender-ref ref="ERROR_FILE" />
     </logger>
-<!--    경로 확인 제대로 하기 !!!!!-->
 
     <!-- 기본 로거 설정 -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="CONSOLE" />
     </root>
 
 </configuration>
-
-
