@@ -8,11 +8,9 @@ import com.todolist.domain.todo.model.Todo;
 import com.todolist.domain.todo.repository.TodoRepository;
 import com.todolist.domain.user.model.User;
 import com.todolist.domain.user.repository.UserRepository;
-import com.todolist.domain.user.service.UserService;
 import com.todolist.exception.NotFoundException;
 import com.todolist.exception.UserException;
 import com.todolist.util.jwt.JwtUtil;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -97,7 +95,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TodoResponseDTO getTodo(Long todoId) {
         Todo todo = todoRepository.findById(todoId).orElseThrow(
-                () -> new IllegalArgumentException("일정이 없습니다")
+                () -> new NotFoundException("일정이 없습니다")
         );
         return TodoResponseDTO.fromTodo(todo);
     }
