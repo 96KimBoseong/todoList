@@ -30,7 +30,7 @@ public class AuthFilter implements Filter {
 
         if (StringUtils.hasText(url) &&
                 (url.startsWith("/api/user") || url.startsWith("/swagger") || url.startsWith("/v3/api-docs") || url.startsWith("/swagger-ui") || url.startsWith("/api/todos/get")
-                || url.startsWith("/api/todos/getList")) // 인증하지 않아도 되는 조건은 다음으로
+                || url.startsWith("/api/todos/all")) // 인증하지 않아도 되는 조건은 다음으로
         ) {
             log.info("인증처리를 하지 않는 URL{}", url);
             // 회원가입, 로그인 관련 API 는 인증 필요없이 요청 진행
