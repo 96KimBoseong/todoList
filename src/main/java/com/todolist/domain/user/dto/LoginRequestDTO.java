@@ -11,4 +11,9 @@ public class LoginRequestDTO {
     private String username;
     @NotBlank(message = "패스워드는 필수값입니다")
     private String password;
+
+    public LoginRequestDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

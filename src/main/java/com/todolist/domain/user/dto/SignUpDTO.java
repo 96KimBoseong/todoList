@@ -32,4 +32,10 @@ public class SignUpDTO {
         );
     }
 
+    public SignUpDTO(String nickname,String username, String password, UserRole role){
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+    // 테스트용 생성자
 }
