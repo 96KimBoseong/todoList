@@ -11,9 +11,9 @@ import java.util.List;
 public interface TodoService {
     TodoResponseDTO createTodo(TodoRequestDTO todoRequestDTO, HttpServletRequest httpServletRequest);
 
-    TodoResponseDTO updateTodo(TodoUpdateDTO todoUpdateDTO, HttpServletRequest httpServletRequest);
+    TodoResponseDTO updateTodo(TodoUpdateDTO todoUpdateDTO, HttpServletRequest httpServletRequest, Long todoId);
 
-    void deleteTodo(TodoDeleteRequestDTO todoDeleteRequestDTO,HttpServletRequest httpServletRequest);
+    void deleteTodo(TodoDeleteRequestDTO todoDeleteRequestDTO,HttpServletRequest httpServletRequest, Long todoId);
 
     TodoResponseDTO getTodo(Long todoId);
     List<TodoResponseDTO> getAllTodos();

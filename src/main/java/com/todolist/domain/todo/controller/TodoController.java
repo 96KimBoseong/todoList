@@ -29,19 +29,18 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(request, httpServletRequest));
     }
 
-    @PatchMapping()
+    @PatchMapping("/{todoId}")
     @Operation(summary = "todo 수정", description = "todo 수정")
-    public ResponseEntity<TodoResponseDTO> updateTodo(@Valid @RequestBody TodoUpdateDTO request, HttpServletRequest httpServletRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body(todoService.updateTodo(request,httpServletRequest));
+    public ResponseEntity<TodoResponseDTO> updateTodo(@Valid @RequestBody TodoUpdateDTO request, HttpServletRequest httpServletRequest, @PathVariable Long todoId) {
+        return ResponseEntity.status(HttpStatus.OK).body(todoService.updateTodo(request,httpServletRequest, todoId));
     }
 
     @DeleteMapping("/{todoId}")
     @Operation(summary = "todo 삭제", description = "todo 삭제")
-    public ResponseEntity<Void> deleteTodo(@Valid @RequestBody TodoDeleteRequestDTO request, HttpServletRequest httpServletRequest) {
-        todoService.deleteTodo(request, httpServletRequest);
+    public ResponseEntity<Void> deleteTodo(@Valid @RequestBody TodoDeleteRequestDTO request, HttpServletRequest httpServletRequest, @PathVariable Long todoId) {
+        todoService.deleteTodo(request, httpServletRequest, todoId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
     @GetMapping("/{todoId}")
     @Operation(summary = "todo 단건 조회", description = "todo 단건 조회")
     public ResponseEntity<TodoResponseDTO> getTodo(@PathVariable Long todoId) {

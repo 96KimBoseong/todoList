@@ -49,11 +49,11 @@ public class TodoServiceImpl implements TodoService {
     }
     @Transactional
     @Override
-    public TodoResponseDTO updateTodo(TodoUpdateDTO todoUpdateDTO, HttpServletRequest httpServletRequest) {
+    public TodoResponseDTO updateTodo(TodoUpdateDTO todoUpdateDTO, HttpServletRequest httpServletRequest,Long todoId) {
 
         String username = jwtUtil.getUsernameFromToken(httpServletRequest);
 
-        Todo todo = todoRepository.findById(todoUpdateDTO.getId()).orElseThrow(
+        Todo todo = todoRepository.findById(todoId).orElseThrow(
                 () -> new NotFoundException("게시글이 없습니다")
         );
 
@@ -74,11 +74,11 @@ public class TodoServiceImpl implements TodoService {
     }
     @Transactional
     @Override
-    public void deleteTodo(TodoDeleteRequestDTO todoDeleteRequestDTO, HttpServletRequest httpServletRequest) {
+    public void deleteTodo(TodoDeleteRequestDTO todoDeleteRequestDTO, HttpServletRequest httpServletRequest, Long todoId) {
 
         String username = jwtUtil.getUsernameFromToken(httpServletRequest);
 
-        Todo todo = todoRepository.findById(todoDeleteRequestDTO.getId()).orElseThrow(
+        Todo todo = todoRepository.findById(todoId).orElseThrow(
                 () -> new NotFoundException("게시글이 없습니다")
         );
 
