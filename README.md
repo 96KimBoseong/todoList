@@ -1,4 +1,29 @@
-# todoList
+
+![todo-List 이미지](https://github.com/user-attachments/assets/2e75fba3-4e38-479a-bfdd-f097760b806e)
+# 프로젝트 개요
+
+todoList 애플리케이션은 개인 또는 팀의 작업 관리 및 일정을 효율적으로 관리할 수 있는 애플리케이션입니다. 
+
+- 프로젝트 목표
+    - JVM 언어 이해도 증진
+    - Filter 와 JWT를 활용한 인증/ 인가
+    - RestControllerAdvice / ExceptionHandler를 활용한 전역 예외처리
+    - Validation 을 활용한 유효성 검사
+    - 예외가 발생하면 로그 파일에 적재
+    - 스프링 AOP를 이용하여 로그인 이력을 데이터베이스에 저장
+ ---
+ # DB modeling
+ ![todoList](https://github.com/user-attachments/assets/486d0765-2e13-48d3-a808-07d77ecdfbbe)
+
+ ---
+ # API 설계
+
+![스웨거 개선 버전](https://github.com/user-attachments/assets/6ed209e4-51c0-478a-8064-cd02ef8f02d8)
+
+
+---
+# 요구사항
+### todoList
 - [ ]  생성 - 일정 작성
     - [ ]  `할 일 제목`, `할 일 내용`, `담당자`, `비밀번호`, `작성일` 을 저장할 수 있습니다.
         - [ ]  저장된 일정 정보를 반환 받아 확인할 수 있습니다.
@@ -203,3 +228,37 @@
                 | 사용자 이름 | varchar |
                 | 수행 타입(로그인 수행 전, 로그인 성공, 로그인 실패) | varchar |
                 | 최근 시간 | timestamp |
+
+---
+
+# 트러블슈팅
+
+### 문제상황
+- RestControllerAdvice에서 정의해 놓은 예외처리를 filter에서 사용했을 때 올바르게 적용 되지 않는 문제
+
+![필터 메서드 익셉션 때우기 전](https://github.com/user-attachments/assets/a288f295-0666-4677-aa14-d353eab161ad)
+
+### 원인 
+- 정의 해놓은 예외처리는 Spring context에서만 핸들링 가능
+- filter에서 올바르게 예외처리를 하려면 직접 구현 하여야함
+![Untitled (3) (1)](https://github.com/user-attachments/assets/e869b5f4-51d3-4aaf-a87a-a7400254b454)
+
+### 해결방안
+- HttpServletResponse 를 개발자가 원하는 응답으로 바꾸는 메서드를 작성하여 메세지와 status 코드를 클라이언트에 전달하고 올바른 예외처리를 구현
+![리뉴얼 ~ 상수받는 메서드 http서블릿어쩌고 상태코드](https://github.com/user-attachments/assets/8242966b-211d-4c32-bce5-be38c3e6ec0b)
+
+- filter 클래스에서 exceptionHandler 메서드 구현 / 적용
+
+![필터 개선 버전](https://github.com/user-attachments/assets/08cfcfaa-3c95-40ca-8537-46bd4d80654c)
+
+- 401 error와 메세지를 클라이언트에 전달하는 모습
+
+![실제 에러](https://github.com/user-attachments/assets/7d6ba70b-557a-4de0-a5d5-b1b9b72a2358)
+
+---
+# error.log 파일 생성
+![로그파일 적재](https://github.com/user-attachments/assets/9aeab169-99e5-494e-a5f2-8879b46ee1fa)
+
+
+
+
