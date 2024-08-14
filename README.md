@@ -1,5 +1,5 @@
 
-![리드미용 대빵 큰이미지](https://github.com/user-attachments/assets/8acd6aef-507e-4edb-aa0d-af722257a40e)
+![리드미용 대빵 큰이미지](https://github.com/user-attachments/assets/fb70763d-dd12-42f1-8f2b-8b3b1c31d90b)
 
 # 프로젝트 개요
 
