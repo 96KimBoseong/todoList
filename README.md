@@ -13,6 +13,26 @@ todoList 애플리케이션은 개인 또는 팀의 작업 관리 및 일정을 
     - 예외가 발생하면 로그 파일에 적재
     - 스프링 AOP를 이용하여 로그인 이력을 데이터베이스에 저장
  ---
+ # 개발기간
+ 2024/08/01 ~ 2024/08/15
+
+
+---
+
+ # 기술스택
+ 
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=Spring%20Boot&logoColor=white)
+![JPA](https://img.shields.io/badge/JPA-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+
+
+ 
+ ---
  # DB modeling
  ![todoList](https://github.com/user-attachments/assets/486d0765-2e13-48d3-a808-07d77ecdfbbe)
 
