@@ -52,7 +52,7 @@ public class AuthFilter implements Filter {
                 // 토큰 검증
                 if (!jwtUtil.validateToken(token)) {
                     String message = "토큰검증에 실패했습니다";
-                    exceptionHandler((HttpServletResponse) servletResponse, message);
+                    exceptionHandler((HttpServletResponse) servletResponse, message, HttpServletResponse.SC_UNAUTHORIZED);
                     return;
                     //doFilter 를 빠져나감
                 }
@@ -61,14 +61,14 @@ public class AuthFilter implements Filter {
 
                 Optional<User> user = userRepository.findByUsername(info.getSubject());
                 if(user.isEmpty()){
-                    exceptionHandler((HttpServletResponse) servletResponse, "유저가 정보가 없습니다");
+                    exceptionHandler((HttpServletResponse) servletResponse, "유저가 정보가 없습니다",HttpServletResponse.SC_NOT_FOUND);
                     return;
                     //doFilter 를 빠져나감
                 }
                 servletRequest.setAttribute("user", user);
                 filterChain.doFilter(servletRequest, servletResponse); // 다음 Filter 로 이동
             } else {
-                exceptionHandler((HttpServletResponse) servletResponse, "토큰이 없습니다");
+                exceptionHandler((HttpServletResponse) servletResponse, "토큰이 없습니다",HttpServletResponse.SC_UNAUTHORIZED);
                 //여기서 끝내버려야함 다음 필터 ㄴㄴ
             }
         }
@@ -78,8 +78,8 @@ public class AuthFilter implements Filter {
     }
 
 
-    private void exceptionHandler(HttpServletResponse response, String message) {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    private void exceptionHandler(HttpServletResponse response, String message, int statusCode) {
+        response.setStatus(statusCode);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         try {
