@@ -280,7 +280,8 @@ Todo-List 애플리케이션은 개인 또는 팀의 작업 관리 및 일정을
 
 - filter 클래스에서 exceptionHandler 메서드 구현 / 적용
 
-![필터 개선 버전](https://github.com/user-attachments/assets/08cfcfaa-3c95-40ca-8537-46bd4d80654c)
+![스크린샷 2024-08-13 214350](https://github.com/user-attachments/assets/f1938646-e278-4358-8fe6-a40c02b4e6b1)
+
 
 - 401 error와 메세지를 클라이언트에 전달하는 모습
 
